@@ -2,13 +2,28 @@
 
 SetTitleMatchMode RegEx
 
+ExpandToFullPath(file) {
+    shell := ComObjCreate("WScript.Shell")
+    exec := shell.Exec(ComSpec " /C where.exe " file)
+    return % exec.StdOut.ReadAll()
+}
+
 GetRamMapExe() {
     If (A_Args.Length() > 0) {
         ramMapFilePath := A_Args[1]
     }
-    Else {
+
+    if (!FileExist(ramMapFilePath)) {
         ramMapFilePath := A_ScriptDir . "/RAMMap.exe"
     }
+
+    if (!FileExist(ramMapFilePath)) {
+        ramMapFilePath := ExpandToFullPath("RAMMap.exe")
+    }
+
+    ramMapFilePath := StrReplace(ramMapFilePath, "`r")
+    ramMapFilePath := StrReplace(ramMapFilePath, "`n")
+    ramMapFilePath := Trim(ramMapFilePath)
 
     If (!FileExist(ramMapFilePath)) {
         MsgBox, RAMMap.exe could not be found.
@@ -145,22 +160,38 @@ If (!WinExist(GetRamMapTitle())) {
     ExitApp, -1
 }
 
+Progress, p15, Preparing, Cleanup, RAMMap Cleanup
+
 WaitUntilFinished()
+
+Progress, 30, Empty Working Sets
 
 EmptyWorkingSets()
 WaitUntilFinished()
 
+Progress, 45, Empty System Working Set
+
 EmptySystemWorkingSet()
 WaitUntilFinished()
+
+Progress, 60, Empty Modified Page List
 
 EmptyModifiedPageList()
 WaitUntilFinished()
 
+Progress, 75, Empty Standby List
+
 EmptyStandbyList()
 WaitUntilFinished()
 
+Progress, 90, Empty Priority0 Standby List
+
 EmptyPriority0StandbyList()
 WaitUntilFinished()
+
+Progress, 100, Finishing
+Sleep, 2000
+Progress, Off
 
 CloseRamMap()
 WinWaitClose, GetRamMapTitle(),, 5

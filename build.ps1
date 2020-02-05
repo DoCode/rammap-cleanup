@@ -27,7 +27,7 @@ Set-ScriptArgs $MyInvocation.BoundParameters $MyInvocation.UnboundArguments
 function Get-FileFromUrl([string] $name, [string] $url) {
     Log info "Download '$name' from '$url'..."
 
-    $fileName = [System.IO.FileInfo]::new($url).Name
+    $fileName = [System.IO.Path]::GetFileName($url)
     $downloadedFile = Join-Path $env:TEMP $fileName
 
     Invoke-WebRequest -Uri $url -Method Get -OutFile $downloadedFile -UseBasicParsing
@@ -50,7 +50,7 @@ try {
 
     if ($DownloadRamMap) {
         $ramMapDownloadUrl = 'https://live.sysinternals.com/RAMMap.exe'
-        $ramMapFileName = [System.IO.FileInfo]::new($ramMapDownloadUrl).Name
+        $ramMapFileName = [System.IO.Path]::GetFileName($ramMapDownloadUrl)
         New-DirectoryIfNotExists $outputDir
 
         $ramMapDestination = Join-Path $outputDir $ramMapFileName
@@ -63,7 +63,7 @@ try {
         }
     }
 
-    if ($CompileExecutable) {
+    if (-not $CompileExecutable.IsPresent -or $CompileExecutable) {
         $ahkDownloadUrl = 'https://www.autohotkey.com/download/ahk.zip'
         $ahkPath = Join-Path  $outputDir 'ahk'
         New-DirectoryIfNotExists $ahkPath
