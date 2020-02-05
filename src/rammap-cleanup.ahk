@@ -184,7 +184,7 @@ Progress, 75, Empty Standby List
 EmptyStandbyList()
 WaitUntilFinished()
 
-Progress, 90, Empty Priority0 Standby List
+Progress, 90, Empty Priority 0 Standby List
 
 EmptyPriority0StandbyList()
 WaitUntilFinished()

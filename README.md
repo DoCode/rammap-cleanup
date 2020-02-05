@@ -2,6 +2,16 @@
 
 AutoHotKey automation for RAMMap.
 
+**Support for automatic cleanup:**
+
+- Empty Working Sets
+- Empty System Working Set
+- Empty Modified Page List
+- Empty Standby List
+- Empty Priority 0 Standby List
+
+![alt text](docs/empty-standby-list.png)
+
 ## Installation
 
 The `build.cmd|ps1` scripts provide two capabilities:
@@ -17,7 +27,7 @@ The `clean.cmd` only remove the build artifacts from `build.cmd|ps1`!
 
 Download RAMMap, download AutoHotKey and compile AutoHotKey script to EXE:
 
-```bat
+```cmd
 build.cmd|ps1 -DownloadRamMap -CompileExecutable
 ```
 
@@ -52,13 +62,13 @@ _build
 
 ### Run script
 
-```bat
+```cmd
 AutoHotkey.exe src/rammap-cleanup.ahk
 ```
 
 ### Run compiled executable
 
-```bat
+```cmd
 _build/rammap-cleanup.exe
 ```
 
@@ -66,7 +76,7 @@ _build/rammap-cleanup.exe
 
 The first argument can be the path to an existing `RAMMap.exe` executable on the machine, e.g.:
 
-```bat
+```cmd
 AutoHotkey.exe src/rammap-cleanup.ahk C:/Program Files/Sysint/RAMMap.exe
 _build_/rammap-cleanup.exe C:/Program Files/Sysint/RAMMap.exe
 ```
